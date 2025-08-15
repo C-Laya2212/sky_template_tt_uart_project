@@ -1,5 +1,8 @@
-# Makefile
+# Makefile for TT Sky UART Project
 # See https://docs.cocotb.org/en/stable/quickstart.html for more info
+
+# Force RTL simulation during development (comment out for gate-level)
+override GATES := no
 
 # defaults
 SIM ?= icarus
@@ -21,9 +24,14 @@ COMPILE_ARGS    += -DGL_TEST
 COMPILE_ARGS    += -DFUNCTIONAL
 COMPILE_ARGS    += -DSIM
 
-# FIXED: Use SKY130 PDK instead of IHP SG13G2
+# Include SKY130 PDK files
 VERILOG_SOURCES += $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_io/verilog/sky130_fd_io.v
 VERILOG_SOURCES += $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/verilog/sky130_fd_sc_hd.v
+
+# Include UDP primitives for gate-level simulation
+VERILOG_SOURCES += $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/verilog/primitives/sky130_fd_sc_hd__udp_dff_pr.v
+VERILOG_SOURCES += $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/verilog/primitives/sky130_fd_sc_hd__udp_dff_ps.v  
+VERILOG_SOURCES += $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/verilog/primitives/sky130_fd_sc_hd__udp_mux_2to1.v
 
 # this gets copied in by the GDS action workflow
 VERILOG_SOURCES += $(PWD)/gate_level_netlist.v
