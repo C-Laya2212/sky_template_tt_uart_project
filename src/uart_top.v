@@ -1,4 +1,4 @@
-`default_nettype none
+`default_nettype none //
 
 module uart_top #(
     parameter WIDTH = 8
